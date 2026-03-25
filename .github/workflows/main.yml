@@ -24,10 +24,10 @@ jobs:
 
     - name: 执行 EXE 打包命令
       run: |
-        pyinstaller --noconsole --onefile --name "作业登记系统" homework2.py
+        pyinstaller --noconsole --onefile --name "自习系统" 自习系统.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
       with:
-        name: 作业登记系统-Windows版
-        path: dist/作业登记系统.exe
+        name: 自习系统-Windows版
+        path: dist/自习系统.exe
