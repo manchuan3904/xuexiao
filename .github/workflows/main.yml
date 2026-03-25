@@ -24,7 +24,7 @@ jobs:
 
     - name: 执行 EXE 打包命令
       run: |
-        pyinstaller --noconsole --onefile --name "许愿箱" wishing_box.py
+        pyinstaller --noconsole --onefile --name "许愿箱" 许愿箱.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
