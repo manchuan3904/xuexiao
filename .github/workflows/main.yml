@@ -24,10 +24,10 @@ jobs:
 
     - name: 执行 EXE 打包命令
       run: |
-        pyinstaller --noconsole --onefile --name "许愿箱" 许愿箱.py
+        pyinstaller --noconsole --onefile --name "自习签到" 自习签到_副本.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
       with:
-        name: 许愿箱-Windows版
-        path: dist/许愿箱.exe
+        name: 自习签到-Windows版
+        path: dist/自习签到.exe
