@@ -24,10 +24,10 @@ jobs:
 
     - name: 执行 EXE 打包命令
       run: |
-        pyinstaller --noconsole --onefile --name "考勤签到" 考勤登记系统.py
+        pyinstaller --noconsole --onefile --name "1111" 1111.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
       with:
-        name: 考勤登记系统-Windows版
-        path: dist/考勤登记.exe
+        name: 1111-Windows版
+        path: dist/1111.exe
