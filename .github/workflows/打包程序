@@ -25,10 +25,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
-        # 注意：如果您使用的是我上一版为您写的“纯原生无依赖”版本代码，那么这里只需要装 pyinstaller 即可。
-        # 如果您仍然使用需要第三方库的老版本代码，请把下面这行前面的井号(#)去掉：
-        # pip install PyQt6 pandas openpyxl 
-
+        
     - name: 执行 EXE 打包命令
       run: |
         # 统一命名为"考勤登记系统"，生成的将是 dist/考勤登记系统.exe
