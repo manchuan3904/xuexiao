@@ -1,0 +1,42 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    # 修复 Node.js 20 弃用警告：强制使用 Node.js 24
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+    - name: 获取代码
+      uses: actions/checkout@v4
+
+    - name: 安装 Python 环境
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: 安装打包需要的运行库
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        # 注意：如果您使用的是我上一版为您写的“纯原生无依赖”版本代码，那么这里只需要装 pyinstaller 即可。
+        # 如果您仍然使用需要第三方库的老版本代码，请把下面这行前面的井号(#)去掉：
+        # pip install PyQt6 pandas openpyxl 
+
+    - name: 执行 EXE 打包命令
+      run: |
+        # 统一命名为"考勤登记系统"，生成的将是 dist/考勤登记系统.exe
+        pyinstaller --noconsole --onefile --name "考勤登记系统" 考勤登记系统.py
+
+    - name: 上传打包好的成品
+      uses: actions/upload-artifact@v4
+      with:
+        name: 考勤登记系统-Windows版
+        # 这里的路径必须和上面的 --name 完全对应，且包含后缀 .exe
+        path: dist/考勤登记系统.exe
