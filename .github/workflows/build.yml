@@ -1,0 +1,40 @@
+name: Build Windows EXE
+
+# 触发条件：当代码推送到 main 或 master 分支，或者手动触发时运行
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: windows-latest # 使用云端的 Windows 系统
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' # 你可以根据实际情况修改 Python 版本
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        # 如果项目中有 requirements.txt，则自动安装依赖
+        if (Test-Path -Path 'requirements.txt') { pip install -r requirements.txt }
+      shell: pwsh
+
+    - name: Build EXE with PyInstaller
+      # --onefile: 打包成单个 exe 文件
+      # --windowed: 隐藏黑色命令行窗口（如果你的 3333.py 是带界面的桌面软件，建议保留这个参数；如果是纯命令行工具，请删掉它）
+      run: |
+        pyinstaller --noconfirm --onefile --windowed --name "3333" "3333.py"
+
+    - name: Upload EXE as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: 3333-Windows-EXE
+        path: dist/3333.exe
