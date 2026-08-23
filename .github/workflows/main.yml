@@ -24,10 +24,10 @@ jobs:
 
     - name: 执行 EXE 打包命令
       run: |
-        pyinstaller --noconsole --onefile --name "1111" 1111.py
+        pyinstaller --noconsole --onefile --name "班级管理系统_副本" 班级管理.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
       with:
-        name: 1111-Windows版
-        path: dist/1111.exe
+        name: 班级管理-Windows版
+        path: dist/班级管理.exe
