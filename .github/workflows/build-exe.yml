@@ -1,0 +1,52 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]        # 当 main 分支有推送时触发
+  workflow_dispatch:          # 允许手动触发
+
+jobs:
+  build:
+    runs-on: windows-latest   # 使用 Windows 虚拟机
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'   # 可改成你需要的版本
+
+      # 3. 安装依赖和 PyInstaller
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          # 如果存在 requirements.txt 就安装里面的依赖
+          if (Test-Path requirements.txt) {
+            pip install -r requirements.txt
+          }
+          # 安装打包工具
+          pip install pyinstaller
+
+      # 4. 使用 PyInstaller 打包成单个 exe
+      - name: Build EXE
+        shell: pwsh
+        run: |
+          # 设置 UTF-8 编码，确保中文文件名正确
+          chcp 65001
+          $env:PYTHONUTF8 = "1"
+          # 打包命令（入口文件和 exe 名称都使用中文）
+          pyinstaller --onefile --name "班级事务管理系统" "班级事务管理系统.py"
+          # 如果程序是 GUI 应用（如 tkinter、PyQt），可改用下面这行去掉黑色控制台窗口：
+          # pyinstaller --onefile --noconsole --name "班级事务管理系统" "班级事务管理系统.py"
+
+      # 5. 上传生成的 exe 文件，供下载
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: dist/*.exe   # PyInstaller 默认输出到 dist 文件夹
