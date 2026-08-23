@@ -28,12 +28,12 @@ jobs:
         
     - name: 执行 EXE 打包命令
       run: |
-        # 统一命名为"班级管理系统"，生成的将是 dist/班级管理系统.exe
-        pyinstaller --noconsole --onefile --name "班级管理系统" 班级管理系统.py
+        # 统一命名为"2222"，生成的将是 dist/2222.exe
+        pyinstaller --noconsole --onefile --name "2222" 2222.py
 
     - name: 上传打包好的成品
       uses: actions/upload-artifact@v4
       with:
-        name: 班级管理系统-Windows版
+        name: 2222-Windows版
         # 这里的路径必须和上面的 --name 完全对应，且包含后缀 .exe
-        path: dist/班级管理系统.exe
+        path: dist/2222.exe
